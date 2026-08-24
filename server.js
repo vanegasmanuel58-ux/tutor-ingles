@@ -3,7 +3,6 @@ const cors = require('cors');
 const multer = require('multer');
 const fs = require('fs');
 const FormData = require('form-data');
-const { GoogleGenerativeAI } = require('@google/generative-ai');
 const Groq = require('groq-sdk'); 
 
 // Le decimos a Node que sirva nuestros archivos HTML, CSS y JS
