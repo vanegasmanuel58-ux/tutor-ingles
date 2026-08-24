@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const multer = require('multer');
 const Groq = require('groq-sdk');
+const fs = require('fs'); // <-- ¡Esta es la que probablemente falta!
 
 const app = express();
 const PORT = process.env.PORT || 5000;
