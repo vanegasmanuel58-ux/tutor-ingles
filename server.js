@@ -1,10 +1,12 @@
 const express = require('express');
 const cors = require('cors');
 const multer = require('multer');
-const fs = require('fs');
-const FormData = require('form-data');
-const Groq = require('groq-sdk'); 
+const Groq = require('groq-sdk');
 
+const app = express();
+const PORT = process.env.PORT || 5000;
+
+app.use(cors());
 // Le decimos a Node que sirva nuestros archivos HTML, CSS y JS
 app.use(express.static(__dirname));
 const upload = multer({ dest: 'uploads/' });
@@ -12,7 +14,7 @@ const upload = multer({ dest: 'uploads/' });
 // === CONEXIÓN A GROQ ===
 const groq = new Groq({
     apiKey: process.env.GROQ_API_KEY
-}); 
+});
 
 app.get('/api/status', (req, res) => {
     res.json({ status: "Backend corriendo con Groq 🚀" });
