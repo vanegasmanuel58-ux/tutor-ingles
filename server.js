@@ -55,9 +55,12 @@ app.post('/api/chat', upload.single('audio'), async (req, res) => {
         1. NO des explicaciones largas.
         2. ESTRUCTURA TU RESPUESTA EXACTAMENTE EN 3 PARTES SEPARADAS POR "---":
         
-        [Parte 1: EN ESPAÑOL. Primero haz tu corrección breve si es necesaria. Luego, incluye SIEMPRE la traducción exacta de lo que dirás en la Parte 2. (Ej: "Tu frase es correcta. Te pregunto: ¿Qué haces para divertirte?")]
+        [Parte 1: EN ESPAÑOL. 
+        - Primero, dile al usuario qué significa en español lo que acaba de decir. (Ej: "Entendí que dijiste: [traducción de su frase]").
+        - Luego, haz tu corrección breve si es necesaria. 
+        - Finalmente, incluye SIEMPRE la traducción exacta de lo que dirás en la Parte 2.]
         ---
-        [Parte 2: ÚNICAMENTE EN INGLÉS. Tu respuesta y UNA pregunta corta para continuar la charla. (Ej: "Nice to meet you! What do you do for fun?")]
+        [Parte 2: ÚNICAMENTE EN INGLÉS. Tu respuesta y UNA pregunta corta para continuar la charla.]
         ---
         [Parte 3: ÚNICAMENTE un arreglo JSON con máximo 2 palabras. Formato: [{"en": "palabra", "es": "traducción"}]]
         `;
