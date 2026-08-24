@@ -6,24 +6,17 @@ const FormData = require('form-data');
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 const Groq = require('groq-sdk'); 
 
-const app = express();
-const PORT = process.env.PORT || 5000;
-
-app.use(cors());
 // Le decimos a Node que sirva nuestros archivos HTML, CSS y JS
 app.use(express.static(__dirname));
 const upload = multer({ dest: 'uploads/' });
 
-// === PON TUS DOS LLAVES AQUÍ ===
+// === CONEXIÓN A GROQ ===
 const groq = new Groq({
-    apiKey: process.env.GROQ_API_KEY,    // ✅ Así le decimos que la lea de forma invisible
+    apiKey: process.env.GROQ_API_KEY
 }); 
 
-const genAI = new GoogleGenerativeAI(API_KEY_GEMINI);
-const groq = new Groq({ apiKey: API_KEY_GROQ });
-
 app.get('/api/status', (req, res) => {
-    res.json({ status: "Backend corriendo con Whisper + Gemini 🚀" });
+    res.json({ status: "Backend corriendo con Groq 🚀" });
 });
 
 app.post('/api/chat', upload.single('audio'), async (req, res) => {
