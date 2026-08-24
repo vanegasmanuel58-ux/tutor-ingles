@@ -1,0 +1,20 @@
+{
+  "name": "AI English Tutor",
+  "short_name": "Tutor IA",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#e4e6eb",
+  "theme_color": "#4285F4",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

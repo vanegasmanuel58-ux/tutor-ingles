@@ -1,0 +1,354 @@
+/* Reseteo básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #f0f2f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Simulador de pantalla de celular */
+.app-container {
+    width: 100%;
+    max-width: 400px;
+    height: 100vh;
+    max-height: 800px; /* Para que no ocupe toda la pantalla en monitores grandes */
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    position: relative;
+    /* Si lo quieres ver como un celular en desktop, puedes añadir bordes redondeados */
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+/* Cabecera */
+.app-header {
+    background-color: #4a90e2;
+    color: white;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    z-index: 10;
+}
+
+.tutor-info h2 {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.tutor-info .status {
+    font-size: 0.8rem;
+    opacity: 0.8;
+}
+
+.icon-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+.icon-btn.action {
+    color: #4a90e2;
+    font-size: 1.5rem;
+}
+
+/* Área de Chat */
+.chat-area {
+    flex: 1; /* Ocupa el espacio restante */
+    padding: 20px;
+    overflow-y: auto; /* Permite hacer scroll */
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    background-color: #f9f9f9;
+}
+
+/* Estilos de los mensajes */
+.message {
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+    max-width: 85%;
+}
+
+.ai-message {
+    align-self: flex-start;
+}
+
+.user-message {
+    align-self: flex-end;
+    flex-direction: row-reverse;
+}
+
+.avatar {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background-color: #4a90e2;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+}
+
+.bubble {
+    padding: 12px 16px;
+    border-radius: 18px;
+    font-size: 0.95rem;
+    line-height: 1.4;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.ai-message .bubble {
+    background-color: #ffffff;
+    border-bottom-left-radius: 5px;
+    color: #333;
+    border: 1px solid #eee;
+}
+
+.user-message .bubble {
+    background-color: #dcf8c6; /* Estilo WhatsApp */
+    border-bottom-right-radius: 5px;
+    color: #000;
+}
+
+/* Mensaje especial de corrección */
+.ai-message.correction .bubble {
+    background-color: #fff3cd; /* Amarillo suave para destacar */
+    border-color: #ffeeba;
+    border-left: 4px solid #ffc107;
+}
+
+.ai-message.correction p:first-child {
+    margin-bottom: 8px;
+}
+
+/* Controles inferiores (Botón de grabar) */
+.controls-area {
+    padding: 15px 20px 25px; /* Más espacio abajo para la barra del celular */
+    background-color: #ffffff;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-top: 1px solid #eee;
+}
+
+/* El gran botón de grabar */
+.record-btn {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background-color: #ff4757; /* Un rojo llamativo */
+    color: white;
+    border: none;
+    font-size: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(255, 71, 87, 0.4);
+    transition: transform 0.2s, background-color 0.2s;
+}
+
+/* Efecto al hacer clic o simular que está grabando */
+.record-btn:active, .record-btn.recording {
+    transform: scale(0.95);
+    background-color: #ff6b81;
+    /* Aquí se podría añadir una animación CSS de "latido" cuando esté grabando */
+}
+/* =========================================
+   ESTILOS DEL DASHBOARD (METAS Y VOCABULARIO)
+   ========================================= */
+
+.dashboard-container {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 25px;
+    flex-wrap: wrap; /* Permite que se adapte a celulares */
+}
+
+.card {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    flex: 1; /* Hacen que ambas tarjetas midan lo mismo */
+    min-width: 250px;
+}
+
+.card h3 {
+    margin-top: 0;
+    color: #333;
+    font-size: 1.1rem;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+/* Estilos de las Barras de Progreso */
+.meta-item {
+    margin-bottom: 15px;
+}
+
+.meta-label {
+    display: block;
+    font-size: 0.9rem;
+    color: #555;
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+.progress-bar {
+    width: 100%;
+    background-color: #e9ecef;
+    border-radius: 8px;
+    height: 12px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    border-radius: 8px;
+    transition: width 0.5s ease-in-out; /* Animación suave al cargar */
+}
+
+/* Estilos de la Lista de Vocabulario */
+.vocab-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 150px;
+    overflow-y: auto; /* Agrega scroll si hay muchas palabras */
+}
+
+.vocab-list li {
+    background: #f8f9fa;
+    margin-bottom: 8px;
+    padding: 10px;
+    border-left: 4px solid #FF9800; /* Un detalle naranja para resaltar */
+    border-radius: 4px;
+    font-size: 0.9rem;
+    color: #444;
+}
+
+.vocab-list li strong {
+    color: #d84315;
+}
+/* =========================================
+   CONTROL DE VISTAS (PESTAÑAS)
+   ========================================= */
+.hidden {
+    display: none !important;
+}
+
+/* Opcional: Un pequeño estilo para el botón activo */
+.icon-btn.active {
+    color: #FF9800; /* Color naranja para saber en qué pestaña estamos */
+}
+/* =========================================
+   DISEÑO RESPONSIVO (PC vs Celular)
+   ========================================= */
+
+/* 1. Ajustes generales para el fondo de la pantalla */
+body {
+    margin: 0;
+    background-color: #e4e6eb; /* Un gris muy suave para que la app resalte en PC */
+    font-family: sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* 2. Ajuste base para celulares (ocupa toda la pantalla) */
+.app-container {
+    width: 100%;
+    height: 100vh;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 3. Ajuste MÁGICO para PC (Pantallas de más de 800px) */
+@media (min-width: 800px) {
+    .app-container {
+        width: 90vw;
+        max-width: 1200px; /* Ancho máximo de la ventana */
+        height: 90vh;
+        border-radius: 20px; /* Bordes redondeados elegantes */
+        box-shadow: 0 10px 40px rgba(0,0,0,0.15); /* Sombra 3D */
+        display: grid;
+        grid-template-columns: 350px 1fr; /* Columna Izq (Metas): 350px, Columna Der (Chat): el resto */
+        grid-template-rows: auto 1fr auto;
+        overflow: hidden;
+    }
+
+    .app-header {
+        grid-column: 1 / 3; /* La cabecera ocupa todo el ancho superior */
+    }
+
+    /* Forzamos a que el Dashboard SIEMPRE se vea en PC, actuando como barra lateral */
+    #dashboard-view {
+        display: flex !important;
+        flex-direction: column;
+        grid-column: 1 / 2;
+        grid-row: 2 / 4;
+        border-right: 1px solid #e0e0e0;
+        background: #f8f9fa;
+        padding: 20px;
+        overflow-y: auto;
+    }
+
+    /* El chat ocupa la parte derecha */
+    #chat-view {
+        display: flex !important; 
+        grid-column: 2 / 3;
+        grid-row: 2 / 3;
+    }
+
+    /* Los controles del micrófono se quedan solo debajo del chat */
+    .controls-area {
+        grid-column: 2 / 3;
+        grid-row: 3 / 4;
+        border-top: 1px solid #e0e0e0;
+    }
+
+    /* Ocultamos los botones de las pestañas porque en PC ya estamos viendo ambas cosas */
+    #btn-chat, #btn-dashboard {
+        display: none;
+    }
+}
+/* =========================================
+   ANIMACIÓN DEL MICRÓFONO
+   ========================================= */
+.record-btn.recording {
+    background-color: #ff3b30; /* Rojo intenso cuando graba */
+    animation: pulse 1.5s infinite;
+    transform: scale(1.1);
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(255, 59, 48, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 15px rgba(255, 59, 48, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(255, 59, 48, 0);
+    }
+}

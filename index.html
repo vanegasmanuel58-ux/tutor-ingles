@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI English Tutor</title>
+    <!-- Enlace a nuestro archivo de estilos -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#4285F4">
+    <!-- Iconos para hacer la UI más amigable (opcional, usando FontAwesome) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+<!-- ============================================== -->
+    <!-- PANTALLA DE LOGIN -->
+    <!-- ============================================== -->
+    <div id="login-screen" style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; background: #e4e6eb; position: absolute; width: 100%; z-index: 1000;">
+        <h1 style="color: #333; margin-bottom: 20px;">AI English Tutor</h1>
+        <p style="color: #666; margin-bottom: 30px;">Inicia sesión para guardar tu progreso</p>
+        <button id="btn-login" style="padding: 12px 24px; font-size: 16px; background: #4285F4; color: white; border: none; border-radius: 8px; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+            <i class="fab fa-google"></i> Ingresar con Google
+        </button>
+    </div>
+
+    <!-- Contenedor principal que simula la pantalla del celular -->
+    <div class="app-container hidden" id="main-app">
+        
+        <!-- Cabecera de la app -->
+        <header class="app-header">
+            <button class="icon-btn"><i class="fas fa-arrow-left"></i></button>
+            <div class="tutor-info">
+                <!-- 🔴 NUEVO: Le damos un ID y un icono de lápiz -->
+                <h2 id="tutor-title">Tutor IA <i class="fas fa-pen" id="btn-edit-name" style="font-size: 0.6em; cursor: pointer; margin-left: 5px; opacity: 0.7;"></i></h2>
+                <span class="status">En línea</span>
+            </div>
+            <button class="icon-btn"><i class="fas fa-ellipsis-v"></i></button>
+        </header>
+
+        <!-- ============================================== -->
+        <!-- PANEL DE PROGRESO Y METAS (Oculto por defecto) -->
+        <!-- ============================================== -->
+        <div class="dashboard-container hidden" id="dashboard-view">
+            
+            <!-- Tarjeta de Metas Diarias -->
+            <div class="card metas-card">
+                <h3>📈 Metas de Hoy</h3>
+                
+                <div class="meta-item">
+                    <span class="meta-label">Precisión al hablar (80%)</span>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 80%; background-color: #4CAF50;"></div>
+                    </div>
+                </div>
+
+                <div class="meta-item">
+                    <span class="meta-label">Práctica diaria (15/20 min)</span>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 75%; background-color: #2196F3;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tarjeta de Vocabulario -->
+            <div class="card vocab-card">
+                <h3>📝 Palabras por Repasar</h3>
+                <ul class="vocab-list" id="lista-vocabulario">
+                    <!-- Ejemplos estáticos -->
+                    <li><strong>Lunges:</strong> Zancadas (Ejercicios)</li>
+                    <li><strong>Motherboard:</strong> Placa base</li>
+                    <li><strong>Landscape:</strong> Paisaje natural</li>
+                </ul>
+            </div>
+
+        </div>
+
+        <!-- ============================================== -->
+        <!-- ÁREA DE CHAT (Visible por defecto)             -->
+        <!-- ============================================== -->
+        <main class="chat-area" id="chat-view">
+            
+            <div class="message ai-message">
+                <div class="avatar"><i class="fas fa-robot"></i></div>
+                <div class="bubble">
+                    <p>Hello! How are you doing today? Let's practice some English.</p>
+                </div>
+            </div>
+
+            <div class="message user-message">
+                <div class="bubble">
+                    <p>Hi! I'm good. I want to talk about my day but I don't know how to say "estoy cansado".</p>
+                </div>
+            </div>
+
+            <div class="message ai-message correction">
+                <div class="avatar"><i class="fas fa-robot"></i></div>
+                <div class="bubble">
+                    <p><strong>Correction:</strong> To say "estoy cansado", you say <em>"I am tired"</em>.</p>
+                    <p>Let's try it! Tell me: "I am tired because..."</p>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- ============================================== -->
+        <!-- CONTROLES INFERIORES                           -->
+        <!-- ============================================== -->
+        <footer class="controls-area">
+            <!-- Botón para ver el Chat -->
+            <button class="icon-btn action" id="btn-chat"><i class="fas fa-keyboard"></i></button>
+            
+            <!-- Botón de Grabar -->
+            <button class="record-btn" id="micBtn">
+                <i class="fas fa-microphone"></i>
+            </button>
+            
+            <!-- Botón para ver las Metas -->
+            <button class="icon-btn action" id="btn-dashboard"><i class="fas fa-chart-line"></i></button>
+        </footer>
+
+    </div>
+<!-- SDK de Firebase -->
+    <!-- 1. El motor principal de Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app-compat.js"></script>
+    
+    <!-- 2. La herramienta de Autenticación (¡ESTA ES LA QUE FALTA!) -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-auth-compat.js"></script>
+    
+    <!-- 3. La base de datos -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore-compat.js"></script>
+    
+    <!-- 4. Finalmente, tu código -->
+    <script src="app.js"></script>
+</body>
+</html>
