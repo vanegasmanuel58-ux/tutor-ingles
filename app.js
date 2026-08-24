@@ -112,10 +112,11 @@ document.getElementById('tutor-title').addEventListener('click', (e) => {
 
 
 // ==========================================
-// 4. LÓGICA DEL MICRÓFONO Y LA INTELIGENCIA ARTIFICIAL
+// 4 y 5. LÓGICA DEL MICRÓFONO Y BOTÓN UNIFICADA
 // ==========================================
 let mediaRecorder;
 let audioChunks = [];
+let streamActivo; // Guardaremos el micrófono aquí para poder apagarlo
 const micBtn = document.getElementById('micBtn');
 
 function agregarMensajeAlChat(texto, clase) {
@@ -127,21 +128,35 @@ function agregarMensajeAlChat(texto, clase) {
     chatArea.scrollTop = chatArea.scrollHeight;
 }
 
-navigator.mediaDevices.getUserMedia({ audio: true })
-    .then(stream => {
-        mediaRecorder = new MediaRecorder(stream);
+micBtn.addEventListener('click', async () => {
+    // Si la IA está hablando, la callamos
+    window.speechSynthesis.cancel(); 
+
+    // Si ya estamos grabando, al hacer clic DETENEMOS la grabación
+    if (mediaRecorder && mediaRecorder.state === 'recording') {
+        mediaRecorder.stop();
+        micBtn.classList.remove('recording');
+        return; // Salimos de la función aquí
+    }
+
+    // Si NO estamos grabando, encendemos el micrófono y empezamos
+    try {
+        streamActivo = await navigator.mediaDevices.getUserMedia({ audio: true });
+        mediaRecorder = new MediaRecorder(streamActivo);
+        audioChunks = []; 
 
         mediaRecorder.ondataavailable = (event) => {
             if (event.data.size > 0) audioChunks.push(event.data);
         };
 
         mediaRecorder.onstop = async () => {
+            // 🔴 ESTA ES LA MAGIA: APAGAMOS EL MICRÓFONO FÍSICO 🔴
+            // Así el celular entiende que ya no estamos en llamada
+            streamActivo.getTracks().forEach(track => track.stop());
+
             const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
-            audioChunks = [];
             const formData = new FormData();
             formData.append('audio', audioBlob, 'grabacion.webm');
-            
-            // 🔴 Enviamos el nombre del tutor al servidor
             formData.append('nombreTutor', nombreTutor); 
 
             try {
@@ -166,7 +181,7 @@ navigator.mediaDevices.getUserMedia({ audio: true })
                     const jsonLimpio = vocabularioJSON.split("```json").join("").split("```").join("").trim();
                     const palabras = JSON.parse(jsonLimpio);
                     
-                    if (usuarioActual) { // Solo guarda si hay usuario
+                    if (usuarioActual) { 
                         palabras.forEach(async (item) => {
                             await db.collection("usuarios").doc(usuarioActual.uid).collection("vocabulario").add({
                                 ingles: item.en,
@@ -200,32 +215,17 @@ navigator.mediaDevices.getUserMedia({ audio: true })
 
             } catch (error) {
                 console.error("Error al enviar el audio:", error);
-                agregarMensajeAlChat("Error conectando con el servidor local.", 'ai-message');
+                agregarMensajeAlChat("Error conectando con el servidor.", 'ai-message');
             }
         };
-    })
-    .catch(error => {
-        console.error("Error al acceder al micrófono:", error);
-        alert("Debes permitir el uso del micrófono.");
-    });
 
-// ==========================================
-// 5. BOTÓN DE GRABACIÓN
-// ==========================================
-micBtn.addEventListener('click', () => {
-    window.speechSynthesis.cancel(); 
-
-    if (!mediaRecorder) {
-        alert("El micrófono aún no está listo.");
-        return;
-    }
-
-    if (mediaRecorder.state === 'inactive') {
+        // Iniciamos la grabación
         mediaRecorder.start();
         micBtn.classList.add('recording');
-    } else {
-        mediaRecorder.stop();
-        micBtn.classList.remove('recording');
+
+    } catch (error) {
+        console.error("Error al acceder al micrófono:", error);
+        alert("Debes permitir el uso del micrófono para hablar.");
     }
 });
 // ==========================================
