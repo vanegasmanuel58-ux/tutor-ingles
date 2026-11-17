@@ -4,133 +4,180 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI English Tutor</title>
-    <!-- Enlace a nuestro archivo de estilos -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#4285F4">
-    <!-- Iconos para hacer la UI más amigable (opcional, usando FontAwesome) -->
+    <meta name="theme-color" content="#0F172A">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
 
-<!-- ============================================== -->
     <!-- PANTALLA DE LOGIN -->
-    <!-- ============================================== -->
-    <div id="login-screen" style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; background: #e4e6eb; position: absolute; width: 100%; z-index: 1000;">
-        <h1 style="color: #333; margin-bottom: 20px;">AI English Tutor</h1>
-        <p style="color: #666; margin-bottom: 30px;">Inicia sesión para guardar tu progreso</p>
-        <button id="btn-login" style="padding: 12px 24px; font-size: 16px; background: #4285F4; color: white; border: none; border-radius: 8px; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-            <i class="fab fa-google"></i> Ingresar con Google
-        </button>
+    <div id="login-screen" class="login-screen">
+        <div class="login-card">
+            <div class="login-badge">AI ENGLISH COACH</div>
+            <h1>Tutor de Inglés</h1>
+            <p>Practica conversación real por voz o texto, recibe correcciones al instante y sigue tu progreso diario.</p>
+            <button id="btn-login" class="btn-google">
+                <i class="fab fa-google"></i> Continuar con Google
+            </button>
+        </div>
     </div>
 
-    <!-- Contenedor principal que simula la pantalla del celular -->
+    <!-- CONTENEDOR PRINCIPAL -->
     <div class="app-container hidden" id="main-app">
-        
-        <!-- Cabecera de la app -->
+
+        <!-- Cabecera corporativa -->
         <header class="app-header">
-            <button class="icon-btn"><i class="fas fa-arrow-left"></i></button>
-            <div class="tutor-info">
-                <!-- 🔴 NUEVO: Le damos un ID y un icono de lápiz -->
-                <h2 id="tutor-title">Tutor IA <i class="fas fa-pen" id="btn-edit-name" style="font-size: 0.6em; cursor: pointer; margin-left: 5px; opacity: 0.7;"></i></h2>
-                <span class="status">En línea</span>
+            <div class="header-left">
+                <div class="tutor-info">
+                    <h2 id="tutor-title">Tutor IA <i class="fas fa-pen" id="btn-edit-name" style="font-size: 0.7em; cursor: pointer; margin-left: 6px; opacity: 0.7;"></i></h2>
+                    <span class="status"><span class="status-dot"></span> En línea</span>
+                </div>
             </div>
-            <button class="icon-btn"><i class="fas fa-ellipsis-v"></i></button>
+
+            <div class="header-controls">
+                <select id="select-nivel" class="header-select" title="Nivel de inglés">
+                    <option value="basico">Nivel: Básico</option>
+                    <option value="intermedio">Nivel: Intermedio</option>
+                    <option value="avanzado">Nivel: Avanzado</option>
+                </select>
+                <select id="select-tema" class="header-select" title="Tema de práctica">
+                    <option value="charla libre">Tema: Libre</option>
+                    <option value="trabajo y negocios">Tema: Negocios</option>
+                    <option value="entrevista laboral">Tema: Entrevista</option>
+                    <option value="viajes">Tema: Viajes</option>
+                </select>
+                <button class="btn-logout" id="btn-logout" title="Cerrar sesión">
+                    <i class="fas fa-sign-out-alt"></i> <span>Salir</span>
+                </button>
+            </div>
         </header>
 
-        <!-- ============================================== -->
-        <!-- PANEL DE PROGRESO Y METAS (Oculto por defecto) -->
-        <!-- ============================================== -->
-        <div class="dashboard-container hidden" id="dashboard-view">
-            
+        <!-- Notificación flotante de XP y Bonificados -->
+        <div id="toast-bono" class="toast-bono hidden"></div>
+
+        <!-- PANEL DE PROGRESO, RECOMPENSAS Y VOCABULARIO -->
+        <aside class="dashboard-container hidden" id="dashboard-view">
+
+            <!-- Tarjeta de Recompensas y Racha -->
+            <div class="card rewards-card">
+                <div class="card-header-row">
+                    <h3>Tu Nivel</h3>
+                    <span class="rank-pill" id="nivel-rango">Aprendiz · Nv. 1</span>
+                </div>
+
+                <div class="level-progress-box">
+                    <div class="level-progress-labels">
+                        <span id="nivel-progreso-texto">0 / 100 monedas para Bronce</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="nivel-barra" style="width: 0%;"></div>
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <span class="stat-value" id="xp-total">0 🪙</span>
+                        <span class="stat-label">Monedas</span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-value" id="racha-dias">0 días</span>
+                        <span class="stat-label">Racha actual</span>
+                    </div>
+                </div>
+
+                <div class="rest-days-box">
+                    <span class="rest-days-label">Días de descanso (no pierdes monedas ni racha):</span>
+                    <div class="rest-days-grid" id="dias-descanso-grid">
+                        <button type="button" class="rest-day-btn" data-day="1" title="Lunes">L</button>
+                        <button type="button" class="rest-day-btn" data-day="2" title="Martes">M</button>
+                        <button type="button" class="rest-day-btn" data-day="3" title="Miércoles">X</button>
+                        <button type="button" class="rest-day-btn" data-day="4" title="Jueves">J</button>
+                        <button type="button" class="rest-day-btn" data-day="5" title="Viernes">V</button>
+                        <button type="button" class="rest-day-btn" data-day="6" title="Sábado">S</button>
+                        <button type="button" class="rest-day-btn" data-day="0" title="Domingo">D</button>
+                    </div>
+                </div>
+
+                <div class="medals-row" id="medallas-container">
+                    <span class="medal locked" title="Completa tu primera frase"><i class="fas fa-award"></i> Inicio</span>
+                    <span class="medal locked" title="Saca 90%+ en una frase (+10 🪙)"><i class="fas fa-bullseye"></i> Precisión</span>
+                    <span class="medal locked" title="Cumple 15 min diarios (+50 🪙)"><i class="fas fa-trophy"></i> Meta 15m</span>
+                    <span class="medal locked" title="Alcanza 100 monedas"><i class="fas fa-coins"></i> 100 🪙</span>
+                    <span class="medal locked" title="Racha de 3 días"><i class="fas fa-fire"></i> 3 Días</span>
+                </div>
+            </div>
+
             <!-- Tarjeta de Metas Diarias -->
             <div class="card metas-card">
-                <h3>📈 Metas de Hoy</h3>
-                
+                <h3>Metas de Hoy</h3>
+
                 <div class="meta-item">
-                    <span class="meta-label">Precisión al hablar (80%)</span>
+                    <span class="meta-label" id="precision-texto">Precisión promedio: --%</span>
                     <div class="progress-bar">
-                        <div class="progress-fill" style="width: 80%; background-color: #4CAF50;"></div>
+                        <div class="progress-fill" id="precision-barra" style="width: 0%;"></div>
                     </div>
                 </div>
 
                 <div class="meta-item">
-                    <span class="meta-label">Práctica diaria (15/20 min)</span>
+                    <span class="meta-label" id="practica-texto">Tiempo practicado hoy: 0 / 15 min</span>
                     <div class="progress-bar">
-                        <div class="progress-fill" style="width: 75%; background-color: #2196F3;"></div>
+                        <div class="progress-fill accent" id="practica-barra" style="width: 0%;"></div>
                     </div>
                 </div>
             </div>
 
             <!-- Tarjeta de Vocabulario -->
             <div class="card vocab-card">
-                <h3>📝 Palabras por Repasar</h3>
+                <h3>Vocabulario por Repasar</h3>
                 <ul class="vocab-list" id="lista-vocabulario">
-                    <!-- Ejemplos estáticos -->
-                    <li><strong>Lunges:</strong> Zancadas (Ejercicios)</li>
-                    <li><strong>Motherboard:</strong> Placa base</li>
-                    <li><strong>Landscape:</strong> Paisaje natural</li>
+                    <li class="vocab-empty">Tu vocabulario nuevo aparecerá aquí mientras practicas.</li>
                 </ul>
             </div>
 
-        </div>
+        </aside>
 
-        <!-- ============================================== -->
-        <!-- ÁREA DE CHAT (Visible por defecto)             -->
-        <!-- ============================================== -->
+        <!-- ÁREA DE CHAT -->
         <main class="chat-area" id="chat-view">
-            
             <div class="message ai-message">
-                <div class="avatar"><i class="fas fa-robot"></i></div>
+                <div class="avatar"><i class="fas fa-graduation-cap"></i></div>
                 <div class="bubble">
-                    <p>Hello! How are you doing today? Let's practice some English.</p>
+                    <p>Hello! I'm ready when you are. Toca el micrófono o escribe abajo para empezar a practicar.</p>
                 </div>
             </div>
-
-            <div class="message user-message">
-                <div class="bubble">
-                    <p>Hi! I'm good. I want to talk about my day but I don't know how to say "estoy cansado".</p>
-                </div>
-            </div>
-
-            <div class="message ai-message correction">
-                <div class="avatar"><i class="fas fa-robot"></i></div>
-                <div class="bubble">
-                    <p><strong>Correction:</strong> To say "estoy cansado", you say <em>"I am tired"</em>.</p>
-                    <p>Let's try it! Tell me: "I am tired because..."</p>
-                </div>
-            </div>
-
         </main>
 
-        <!-- ============================================== -->
-        <!-- CONTROLES INFERIORES                           -->
-        <!-- ============================================== -->
+        <!-- CONTROLES INFERIORES -->
         <footer class="controls-area">
-            <!-- Botón para ver el Chat -->
-            <button class="icon-btn action" id="btn-chat"><i class="fas fa-keyboard"></i></button>
-            
-            <!-- Botón de Grabar -->
-            <button class="record-btn" id="micBtn">
-                <i class="fas fa-microphone"></i>
-            </button>
-            
-            <!-- Botón para ver las Metas -->
-            <button class="icon-btn action" id="btn-dashboard"><i class="fas fa-chart-line"></i></button>
+            <div class="input-row">
+                <input type="text" id="texto-input" class="text-input" placeholder="Escribe en inglés o español..." autocomplete="off">
+                <button class="send-btn" id="btn-enviar-texto" title="Enviar mensaje">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+                <button class="record-btn" id="micBtn" title="Hablar por micrófono">
+                    <i class="fas fa-microphone"></i>
+                </button>
+            </div>
+
+            <div class="mobile-tabs">
+                <button class="tab-btn active" id="btn-chat">
+                    <i class="fas fa-comment-alt"></i> Conversación
+                </button>
+                <button class="tab-btn" id="btn-dashboard">
+                    <i class="fas fa-chart-bar"></i> Progreso y Metas
+                </button>
+            </div>
         </footer>
 
     </div>
-<!-- SDK de Firebase -->
-    <!-- 1. El motor principal de Firebase -->
+
+    <!-- SDK de Firebase -->
     <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app-compat.js"></script>
-    
-    <!-- 2. La herramienta de Autenticación (¡ESTA ES LA QUE FALTA!) -->
     <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-auth-compat.js"></script>
-    
-    <!-- 3. La base de datos -->
     <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore-compat.js"></script>
-    
-    <!-- 4. Finalmente, tu código -->
     <script src="app.js"></script>
 </body>
 </html>
