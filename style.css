@@ -831,3 +831,38 @@ body {
 .toast-bono.penalty {
     border-left-color: var(--danger-crimson);
 }
+/* =========================================
+   FIX SCROLL Y AJUSTE EXACTO EN MÓVIL Y PC
+   ========================================= */
+html, body {
+    height: 100%;
+    overflow: hidden;
+}
+
+.app-container {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.chat-area,
+.dashboard-container {
+    min-height: 0;
+}
+
+@media (max-width: 849px) {
+    .app-header {
+        padding: 10px 14px;
+        gap: 8px;
+    }
+
+    .controls-area {
+        padding: 10px 12px calc(12px + env(safe-area-inset-bottom));
+        gap: 8px;
+    }
+
+    .chat-area {
+        padding: 14px 12px;
+    }
+}
